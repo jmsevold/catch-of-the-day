@@ -29,15 +29,40 @@ var App = React.createClass({
     });
   },
 
+  renderFish : function(key){
+    return <Fish key={key} index={key} details={this.state.fishes[key]}/>
+  },
+
   render: function(){
+    var fishes = this.state.fishes;
     return(
       <div className="catch-of-the-day">
         <div className="menu">
           <Header tagline="Fresh Seafood Good"/>
+          <ul className="list-of-fishes">
+            {Object.keys(fishes).map(this.renderFish)}
+          </ul>
         </div>
         <Order />
         <Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
       </div>
+    )
+  }
+});
+
+var Fish = React.createClass({
+  render : function() {
+    var details = this.props.details;
+    var price = helpers.formatPrice(details.price);
+    return(
+      <li className="menu-fish">
+        <img src={details.image} alt={details.name}/>
+        <h3 className="fish-name">
+          {details.name}
+          <span className="price">{price}</span>
+        </h3>
+        <p>{details.desc}</p>
+      </li>
     )
   }
 });
