@@ -8,6 +8,11 @@ var History = ReactRouter.History;
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 var helpers = require('./helpers.js');
 
+// rebase
+
+var Rebase = require('re-base');
+var base = Rebase.createClass('https://vivid-fire-4918.firebaseio.com/');
+
 
 var App = React.createClass({
   getInitialState: function() {
@@ -15,6 +20,13 @@ var App = React.createClass({
       fishes : {},
       orders : {}
     }
+  },
+
+  componentDidMount : function() {
+    base.syncState(this.props.params.storeId + '/fishes', {
+      context: this,
+      state: 'fishes'
+    });
   },
 
   addToOrder: function(key) {
